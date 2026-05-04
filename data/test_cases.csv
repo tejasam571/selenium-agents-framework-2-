@@ -1,0 +1,31 @@
+testCaseId,path,testScenario,testCaseType,subType,prerequisites,testSteps,expectedResult,testdata,status
+TC_001,Applicant --(INITIATES)-> SelectEmploymentStatus --(TRIGGERS)-> EmploymentStatusSelector --(TRIGGERS)-> DynamicFieldDisplayLogic --(TRIGGERS)-> EmploymentInformationForm --(TRANSFERS)-> FieldValidationRuleEngine --(TRIGGERS)-> FieldValidationHandler --(TRIGGERS)-> ValidationFeedbackUI,Verify selecting 'Full-time' employment status displays relevant fields and accepts valid data so that submission is successful.,Functional,happy,"1. System: Chrome v122, Windows 11.
+2. The applicant is on the emplF2:I2oyment information page.
+3. Test Data: Employment Status 'Full-time', Employer Name 'Virtusa', Job Title 'QA Analyst'.","1. Navigate to the Employment Information form.
+2. Locate the 'Employment Status' selector and select 'Full-time'.
+3. Verify that the 'Employer Name' and 'Job Title' input fields are displayed.
+4. Enter 'Virtusa' into the 'Employer Name' field.
+5. Enter 'QA Analyst' into the 'Job Title' field.
+6. Click the submit button to proceed.","A validation success message should be displayed, and the applicant should be able to proceed to the next step.","{""Validations.id"": 6, ""Validations.type"": ""LIMIT_CHECK"", ""Validations.message"": ""\""{\\\""Available Limit\\\"":190000,\\\""Request Amount\\\"":10000}\"""", ""Validations.status"": 1, ""Validations.request_id"": ""REQ08496868"", ""Validations.process_message"": ""Passed"", ""Validations.process_time"": ""2023-09-29 11:13:31""}",Database
+TC_002,Applicant --(INITIATES)-> SelectEmploymentStatus --(TRIGGERS)-> EmploymentStatusSelector --(TRIGGERS)-> DynamicFieldDisplayLogic --(TRIGGERS)-> EmploymentInformationForm --(TRANSFERS)-> FieldValidationRuleEngine --(TRIGGERS)-> FieldValidationHandler --(TRIGGERS)-> ValidationFeedbackUI,Verify leaving a mandatory 'Employer Name' field empty after selecting 'Full-time' so that a specific validation error is shown.,Functional,error,"1. System: Chrome v122, Windows 11.
+2. The applicant has navigated to the employment information form.
+3. Test Data: Employment Status 'Full-time', Job Title 'QA Analyst'.","1. Select 'Full-time' from the 'Employment Status' selector.
+2. Confirm that the 'Employer Name' field is displayed and marked as mandatory.
+3. Leave the 'Employer Name' field blank.
+4. Enter 'QA Analyst' into the 'Job Title' field.
+5. Click the submit button.",A validation error message stating 'Employer Name is required' should be displayed next to the corresponding field.,"{""Validations.id"": 6, ""Validations.type"": ""FIELD_VALIDATION"", ""Validations.message"": ""Employer Name is required"", ""Validations.status"": 0, ""Validations.request_id"": ""REQ08496868"", ""Validations.process_message"": ""Failed"", ""Validations.process_time"": ""2023-09-29 11:13:31""}",Generated
+TC_003,Applicant --(INITIATES)-> SelectEmploymentStatus --(TRIGGERS)-> EmploymentStatusSelector --(TRIGGERS)-> DynamicFieldDisplayLogic --(TRIGGERS)-> EmploymentInformationForm,Verify selecting an employment status during a network interruption so that the system handles the failure gracefully.,Functional,exception,"1. System: Chrome v122, Windows 11, with network throttling enabled to simulate failure.
+2. The applicant is on the employment information page.
+3. The API endpoint for the DynamicFieldDisplayLogic is configured to fail or time out.","1. Using browser developer tools, set the network condition to 'Offline'.
+2. Select 'Self-Employed' from the 'Employment Status' selector.
+3. Observe the form's behavior as it attempts to load the dynamic fields.
+4. Restore the network connection.",A user-friendly error message indicating the inability to load form details should be displayed instead of the application crashing.,"{""Validations.id"": 6, ""Validations.type"": ""DYNAMIC_FIELD_LOAD"", ""Validations.message"": ""Unable to load form details. Please check your network connection and try again."", ""Validations.status"": 0, ""Validations.request_id"": ""REQ08496868"", ""Validations.process_message"": ""Failed to load dynamic fields due to network interruption."", ""Validations.process_time"": ""2023-09-29 11:13:31""}",Generated
+TC_004,Applicant --(INITIATES)-> SelectEmploymentStatus --(TRIGGERS)-> EmploymentStatusSelector --(TRIGGERS)-> DynamicFieldDisplayLogic --(TRIGGERS)-> EmploymentInformationForm,Verify rapidly switching from 'Full-time' to 'Retired' status so that the form correctly renders only the final selection's fields.,Functional,exploratory,"1. System: Chrome v122, Windows 11.
+2. The applicant is on the employment information page.
+3. The system may have a minor, realistic delay in rendering dynamic UI components.","1. From the 'Employment Status' selector, choose 'Full-time'.
+2. Immediately, without waiting for fields to render, switch the selection to 'Retired'.
+3. Allow the UI to stabilize and observe the displayed form fields.
+4. Attempt to enter data in any visible fields.","The form should only display fields relevant to the 'Retired' status, and all 'Full-time' specific fields should be hidden.","{""Validations.id"": 6, ""Validations.type"": ""EMPLOYMENT_STATUS_CHANGE"", ""Validations.message"": ""Employment status rapidly changed from 'Full-time' to 'Retired'"", ""Validations.status"": 3, ""Validations.request_id"": ""REQ08496868"", ""Validations.process_message"": ""UI fields should reflect 'Retired' status only"", ""Validations.process_time"": ""2025-01-20 08:31:00"", ""UserSessionAudit.id"": 1, ""UserSessionAudit.user_name"": ""john.smith@xbank.com"", ""UserSessionAudit.logged_in_time"": ""2025-01-20 08:30:15"", ""UserSessionAudit.logged_out_time"": ""2025-01-20 17:45:22"", ""UserSessionAudit.from_ip_address"": ""192.168.1.101""}",Generated
+,,,,,,,,,
+,,,,,,,,,
+,,,,,,,,,

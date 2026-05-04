@@ -1,0 +1,10 @@
+# Environments
+venv/
+__pycache__/
+.adk/
+
+# Secrets
+.env
+
+# Build artifacts
+java_tests/target/
