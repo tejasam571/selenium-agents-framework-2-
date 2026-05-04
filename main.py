@@ -417,8 +417,8 @@ import tools.crawler as _crawler
 
 load_dotenv()
 
-APP_URL          = "https://www.saucedemo.com/"
-CSV_PATH         = "data/test_cases_sause.csv"
+APP_URL          = "https://www.amazon.in/"
+CSV_PATH         = "data/amazon_test_cases.csv"
 APP_ID           = "java_selenium_app"
 USER_ID          = "runner"
 INTER_TEST_DELAY = 10

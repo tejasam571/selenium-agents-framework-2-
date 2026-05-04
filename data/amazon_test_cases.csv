@@ -1,0 +1,87 @@
+testCaseId,path,testScenario,testCaseType,subType,prerequisites,testSteps,expectedResult,testdata,status
+TC_001,User --(INITIATES)-> LoginPage --(TRIGGERS)-> AuthenticationHandler --(TRIGGERS)-> SessionManager --(TRANSFERS)-> HomePage,Verify that a registered user can log in with valid credentials so that they are redirected to the homepage.,Functional,happy,"1. System: Chrome v122, Windows 11.
+2. User has a registered Amazon account.
+3. Test Data: Email 'testuser@gmail.com', Password 'Test@1234'.","1. Navigate to https://www.amazon.com.
+2. Click the 'Sign In' button on the top navigation bar.
+3. Enter 'testuser@gmail.com' into the 'Email' field.
+4. Click the 'Continue' button.
+5. Enter 'Test@1234' into the 'Password' field.
+6. Click the 'Sign In' submit button.","User is successfully authenticated and redirected to the Amazon homepage with their account name visible in the navigation bar.","{""Auth.status"": ""SUCCESS"", ""Auth.user"": ""testuser@gmail.com"", ""Session.token"": ""abc123xyz"", ""Session.created_at"": ""2025-01-20 10:00:00""}",Database
+TC_002,User --(INITIATES)-> LoginPage --(TRIGGERS)-> AuthenticationHandler --(TRIGGERS)-> ValidationFeedbackUI,Verify that a user cannot log in with an invalid password so that an appropriate error message is shown.,Functional,error,"1. System: Chrome v122, Windows 11.
+2. User has a registered Amazon account.
+3. Test Data: Email 'testuser@gmail.com', Password 'WrongPass999'.","1. Navigate to https://www.amazon.com.
+2. Click the 'Sign In' button.
+3. Enter 'testuser@gmail.com' into the 'Email' field.
+4. Click the 'Continue' button.
+5. Enter 'WrongPass999' into the 'Password' field.
+6. Click the 'Sign In' submit button.","An error message 'Your password is incorrect' is displayed and the user remains on the login page.","{""Auth.status"": ""FAILED"", ""Auth.reason"": ""Invalid password"", ""Auth.attempts"": 1}",Generated
+TC_003,User --(INITIATES)-> LoginPage --(TRIGGERS)-> AuthenticationHandler --(TRIGGERS)-> ValidationFeedbackUI,Verify that submitting the login form with an empty email field so that a validation error is displayed.,Functional,error,"1. System: Chrome v122, Windows 11.
+2. User is on the Amazon Sign In page.","1. Navigate to https://www.amazon.com/ap/signin.
+2. Leave the 'Email' field blank.
+3. Click the 'Continue' button.","A validation error 'Enter your email or mobile phone number' is displayed below the email field.","{""Validation.field"": ""email"", ""Validation.message"": ""Enter your email or mobile phone number"", ""Validation.status"": ""FAILED""}",Generated
+TC_004,User --(INITIATES)-> SearchBar --(TRIGGERS)-> SearchEngine --(TRIGGERS)-> SearchResultsPage,Verify that searching for a valid product returns relevant results so that the user can browse and select items.,Functional,happy,"1. System: Chrome v122, Windows 11.
+2. User is logged in to Amazon.
+3. Test Data: Search query 'wireless headphones'.","1. Log in to Amazon.
+2. Locate the search bar at the top of the homepage.
+3. Enter 'wireless headphones' into the search bar.
+4. Click the search icon or press Enter.
+5. Observe the search results page.","The search results page displays a list of products related to 'wireless headphones' with product names, prices, and ratings visible.","{""Search.query"": ""wireless headphones"", ""Search.result_count"": 50, ""Search.status"": ""SUCCESS""}",Generated
+TC_005,User --(INITIATES)-> SearchBar --(TRIGGERS)-> SearchEngine --(TRIGGERS)-> SearchResultsPage,Verify that searching with an empty query so that the search bar shows a validation prompt or returns homepage.,Functional,error,"1. System: Chrome v122, Windows 11.
+2. User is logged in to Amazon.","1. Log in to Amazon.
+2. Click on the search bar without entering any text.
+3. Click the search icon or press Enter.","Either a validation message 'Please enter a search term' is shown or the page reloads with no results and a prompt to enter a keyword.","{""Search.query"": """", ""Search.status"": ""EMPTY_QUERY""}",Generated
+TC_006,User --(INITIATES)-> ProductPage --(TRIGGERS)-> CartManager --(TRIGGERS)-> CartPage,Verify that a user can add a product to the cart so that it appears in the cart with correct details.,Functional,happy,"1. System: Chrome v122, Windows 11.
+2. User is logged in to Amazon.
+3. Test Data: Product 'Sony WH-1000XM5 Headphones'.","1. Log in to Amazon.
+2. Search for 'Sony WH-1000XM5 Headphones'.
+3. Click on the first product result.
+4. On the product detail page, click the 'Add to Cart' button.
+5. Navigate to the cart by clicking the cart icon.","The product appears in the cart with the correct name, quantity of 1, and price displayed.","{""Cart.product"": ""Sony WH-1000XM5"", ""Cart.quantity"": 1, ""Cart.status"": ""ADDED""}",Generated
+TC_007,User --(INITIATES)-> CartPage --(TRIGGERS)-> CartManager --(TRIGGERS)-> CartUpdateHandler,Verify that a user can update the quantity of a cart item so that the total price updates accordingly.,Functional,happy,"1. System: Chrome v122, Windows 11.
+2. User is logged in and has at least one item in the cart.","1. Log in to Amazon and navigate to the cart.
+2. Locate a product in the cart.
+3. Change the quantity dropdown from 1 to 2.
+4. Observe the updated subtotal.","The cart subtotal updates to reflect the new quantity and the correct price is displayed.","{""Cart.quantity_before"": 1, ""Cart.quantity_after"": 2, ""Cart.price_updated"": true}",Generated
+TC_008,User --(INITIATES)-> CartPage --(TRIGGERS)-> CartManager --(TRIGGERS)-> CartUpdateHandler,Verify that a user can remove a product from the cart so that the cart is updated and shows empty or remaining items.,Functional,happy,"1. System: Chrome v122, Windows 11.
+2. User is logged in and has one item in the cart.","1. Log in to Amazon and navigate to the cart.
+2. Locate the product in the cart.
+3. Click the 'Delete' link below the product name.
+4. Observe the cart state.","The product is removed from the cart. If no other items exist, the cart shows 'Your Amazon Cart is empty'.","{""Cart.items_before"": 1, ""Cart.items_after"": 0, ""Cart.status"": ""EMPTY""}",Generated
+TC_009,User --(INITIATES)-> ProductPage --(TRIGGERS)-> WishlistManager --(TRIGGERS)-> WishlistPage,Verify that a logged-in user can add a product to their wishlist so that it appears under 'Saved for Later' or their list.,Functional,happy,"1. System: Chrome v122, Windows 11.
+2. User is logged in to Amazon.","1. Log in to Amazon.
+2. Search for any product and open the product detail page.
+3. Click the 'Add to List' button (heart icon or dropdown).
+4. Select 'Create a new list' or an existing wishlist.
+5. Navigate to the wishlist page.","The product appears on the wishlist page with correct name and price.","{""Wishlist.product_added"": true, ""Wishlist.status"": ""SUCCESS""}",Generated
+TC_010,User --(INITIATES)-> FilterPanel --(TRIGGERS)-> SearchFilterEngine --(TRIGGERS)-> SearchResultsPage,Verify that applying a price range filter on search results so that only products within the range are displayed.,Functional,happy,"1. System: Chrome v122, Windows 11.
+2. User has performed a search for 'laptops'.","1. Log in to Amazon and search for 'laptops'.
+2. On the search results page, locate the 'Price' filter on the left panel.
+3. Enter min price '500' and max price '1000'.
+4. Click 'Go' to apply the filter.","All displayed products fall within the $500–$1000 price range. Products outside this range are not shown.","{""Filter.type"": ""price_range"", ""Filter.min"": 500, ""Filter.max"": 1000, ""Filter.status"": ""APPLIED""}",Generated
+TC_011,User --(INITIATES)-> ProductPage --(TRIGGERS)-> RatingFilter --(TRIGGERS)-> SearchResultsPage,Verify filtering products by minimum 4-star rating so that only highly rated products are displayed.,Functional,happy,"1. System: Chrome v122, Windows 11.
+2. User has searched for 'bluetooth speakers'.","1. Log in to Amazon and search for 'bluetooth speakers'.
+2. On the search results page, click '4 Stars & Up' in the 'Avg. Customer Review' section.
+3. Observe the filtered results.","Only products with an average rating of 4 stars or above are displayed in the results.","{""Filter.type"": ""rating"", ""Filter.min_stars"": 4, ""Filter.status"": ""APPLIED""}",Generated
+TC_012,User --(INITIATES)-> CheckoutPage --(TRIGGERS)-> AddressManager --(TRIGGERS)-> OrderSummaryPage,Verify that a user can proceed to checkout and view the order summary so that details are correct before placing the order.,Functional,happy,"1. System: Chrome v122, Windows 11.
+2. User is logged in and has one item in the cart with a saved delivery address.","1. Log in to Amazon and add a product to the cart.
+2. Click the 'Proceed to Buy' button in the cart.
+3. Confirm or enter a delivery address.
+4. Review the order summary page.","The order summary page displays the correct product, quantity, price, delivery address, and estimated delivery date.","{""Checkout.step"": ""order_summary"", ""Checkout.address_verified"": true, ""Checkout.status"": ""REVIEW""}",Generated
+TC_013,User --(INITIATES)-> AccountPage --(TRIGGERS)-> ProfileManager --(TRIGGERS)-> AddressBook,Verify that a user can add a new delivery address in their account settings so that it is saved and available at checkout.,Functional,happy,"1. System: Chrome v122, Windows 11.
+2. User is logged in to Amazon.
+3. Test Data: Name 'John Doe', Address '123 Main St', City 'Seattle', State 'WA', ZIP '98101'.","1. Log in to Amazon.
+2. Navigate to 'Account & Lists' > 'Your Account'.
+3. Click on 'Manage address book'.
+4. Click 'Add address'.
+5. Fill in Name 'John Doe', Address '123 Main St', City 'Seattle', State 'WA', ZIP '98101'.
+6. Click 'Add address' to save.","The new address is saved and appears in the address book and is selectable during checkout.","{""Address.name"": ""John Doe"", ""Address.city"": ""Seattle"", ""Address.status"": ""SAVED""}",Generated
+TC_014,User --(INITIATES)-> OrdersPage --(TRIGGERS)-> OrderHistoryManager --(TRIGGERS)-> OrderDetailPage,Verify that a user can view their order history so that past orders are listed with correct details.,Functional,happy,"1. System: Chrome v122, Windows 11.
+2. User is logged in and has placed at least one previous order.","1. Log in to Amazon.
+2. Navigate to 'Returns & Orders' at the top right.
+3. Observe the list of past orders.
+4. Click on any order to view its details.","The orders page displays all past orders with order ID, date, total, and status. Clicking an order shows full details.","{""Orders.count"": 5, ""Orders.status"": ""LOADED"", ""OrderDetail.status"": ""VISIBLE""}",Generated
+TC_015,User --(INITIATES)-> LoginPage --(TRIGGERS)-> SessionManager --(TRIGGERS)-> HomePage,Verify that a logged-in user can sign out successfully so that the session is terminated and they are redirected to the homepage.,Functional,happy,"1. System: Chrome v122, Windows 11.
+2. User is currently logged in to Amazon.","1. Log in to Amazon.
+2. Hover over 'Account & Lists' in the top navigation bar.
+3. Click 'Sign Out' from the dropdown menu.
+4. Observe the page after sign out.","The user is signed out and redirected to the Amazon homepage. The navigation bar shows 'Hello, Sign in' instead of the user's name.","{""Session.status"": ""TERMINATED"", ""Auth.signed_out"": true}",Generated
